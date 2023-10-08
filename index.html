@@ -1,0 +1,84 @@
+
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<title>calculadora de IMC</title>
+</head>
+<body>
+<div id="main">
+	<div class="column">
+		<h1>Indice de masa corporal</h1>
+		<p>el IMC es el numero que se calcula con base al peso y la estatura</p>
+		<input type="number" id="altura" placeholder="Altura (m)">
+		<input type="number" id="masa" placeholder="Masa(kg)">
+		<button>Calcular IMC</button>
+		<p id="resultado"></p>
+		<img id="imagenResultado" src="default.png" alt="Resultado IMC">
+	</div>
+	<div class="column">
+		<h1>Tabla de composicion corporal</h1>
+		<p>Clasificacion del estado nutricional de acuerdo al IMC</p>
+        <table>
+        	<tr>
+        		<td> Composicion corporal</td>
+        		<td>Indice de masa corporal</td>
+        	</tr>
+        	<tr>
+        		<td> Peso bajo o delgado</td>
+        		<td>Menor a 18.5</td>
+        	</tr>
+        	<tr>
+        		<td>Normal</td>
+        		<td>18.5 -24.9</td>
+        	</tr>
+        	<tr>
+        		<td>Con sobrepeso</td>
+        		<td>25.0 - 29.9</td>
+        	</tr>
+        	<tr>
+        		<td>Obesidad</td>
+        		<td>Mas de 30.0</td>
+        	</tr>
+        </table>
+        <button onclick="location.reload()">Volver a calcular</button>
+	</div>
+</div>
+<script>
+	const masaInput = document.querySelector('#masa');
+	const alturaInput = document.querySelector('#altura');
+	const button = document.querySelector('button');
+	const resultadoP = document.querySelector('#resultado');
+	const imagenResultado = document.querySelector('#imagenResultado');
+	button.addEventListener('click', () => {
+		const masa = parseFloat(masaInput.value);
+		const altura = parseFloat (alturaInput.value);
+	if (isNaN(masa) || isNaN(altura) || altura === 0) {
+		resultadoP.textContent = 'Por favor ingrese valores validos.'
+		imagenResultado.src = 'error.png';
+		return;
+	}
+	const imc = masa / (altura ** 2);
+	resultadoP.textContent = `Tu índice de masa corporal es ${imc.toFixed(2)}.`;
+	let mensaje = '';
+	let imagenSrc = '';
+	if (imc < 18.5) {
+		mensaje ='Estas en el rango de peso insuficiente (delgado).';
+		imagenSrc = 'bajo_peso.png';
+	}else if (imc >= 18.5 && imc < 24.9) {
+		mensaje = 'estas en el rango de peso normal(optimo).';
+		imagenSrc ='normal.png';
+	}else if (imc >= 25 && imc < 29.9) {
+		mensaje = 'tiene sobrepeso.';
+		imagenSrc = 'sobrepeso.png';
+	}else {
+		mensaje = 'tiene obesidad.';
+		imagenSrc = 'obesidad.png';
+	}
+	resultadoP.textContent += ' ' + mensaje;
+	imagenResultado.src = imagenSrc;
+});
+</script>
+</body>
+</html>
